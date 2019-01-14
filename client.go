@@ -15,9 +15,10 @@ import (
 )
 
 const basePath string = "/servlets/netapp.servlets.admin.XMLrequest_filer"
-const agent string = "netapp-ontap-go-api"
+const agent string = "go-ontap"
 const apiVersion string = "1.3"
 const XMLns = "http://www.netapp.com/filer/admin"
+const xmlError = "ONTAP API Call failed"
 
 type Client struct {
 	UserName  string
@@ -144,7 +145,7 @@ func (c *Client) GetDiskInfo() ([]DiskInfo, error) {
 	}
 
 	if strings.Compare(result.Results.Status, "passed") != 0 {
-		return nil, fmt.Errorf("%s", "Netapp Call failed with error")
+		return nil, fmt.Errorf("%s", xmlError)
 	}
 
 	var ail []DiskInfo
@@ -193,7 +194,7 @@ func (c *Client) GetAggrInfo(limit int) ([]AggrInfo, error) {
 	}
 
 	if strings.Compare(result.Results.Status, "passed") != 0 {
-		return nil, fmt.Errorf("%s", "foobar")
+		return nil, fmt.Errorf("%s", xmlError)
 	}
 
 	var ail []AggrInfo
@@ -351,7 +352,7 @@ func (c *Client) getPerformanceData(object string, counters []string, instances 
 	}
 
 	if strings.Compare(result.Results.Status, "passed") != 0 {
-		return nil, fmt.Errorf("%s", "Call to ONTAP API failed")
+		return nil, fmt.Errorf("%s", xmlError)
 	}
 
 	// Convert to custom struct
@@ -416,7 +417,7 @@ func (c *Client) GetVolumeInfo(limit int) (volumes []VolumeInfo, err error) {
 	}
 
 	if strings.Compare(result.Results.Status, "passed") != 0 {
-		return nil, fmt.Errorf("%s", "foobar")
+		return nil, fmt.Errorf("%s", xmlError)
 	}
 
 	// Convert to custom struct
@@ -471,7 +472,7 @@ func (c *Client) GetPerfCounters(object string) (volumes []PerfCounterInfo, err 
 	}
 
 	if strings.Compare(result.Results.Status, "passed") != 0 {
-		return nil, fmt.Errorf("%s", "foobar")
+		return nil, fmt.Errorf("%s", xmlError)
 	}
 
 	var pci []PerfCounterInfo
@@ -483,7 +484,6 @@ func (c *Client) GetPerfCounters(object string) (volumes []PerfCounterInfo, err 
 			Deprecated: v.IsDeprecated,
 		}
 		pci = append(pci, pc)
-		//fmt.Println(v.Name+"\t", v.Desc+"\t", v.Unit+"\t", v.IsDeprecated)
 	}
 
 	return pci, nil
