@@ -154,6 +154,7 @@ func (c *Client) GetDiskInfo() ([]DiskInfo, error) {
 		ai := DiskInfo{
 			Name:     v.DiskName,
 			DiskType: v.DiskInventoryInfo.DiskType,
+			Model:    v.DiskInventoryInfo.Model,
 		}
 
 		ail = append(ail, ai)
