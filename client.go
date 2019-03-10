@@ -151,10 +151,21 @@ func (c *Client) GetDiskInfo() ([]DiskInfo, error) {
 	var ail []DiskInfo
 
 	for _, v := range result.Results.AttributesList.StorageDiskInfo {
+		online := true
+		if v.DiskRaidInfo.DiskAggregateInfo.IsOffline == "true" {
+			online = false
+		}
+		prefailed := false
+		if v.DiskRaidInfo.DiskAggregateInfo.IsPrefailed == "true" {
+			prefailed = true
+		}
+
 		ai := DiskInfo{
-			Name:     v.DiskName,
-			DiskType: v.DiskInventoryInfo.DiskType,
-			Model:    v.DiskInventoryInfo.Model,
+			Name:      v.DiskName,
+			DiskType:  v.DiskInventoryInfo.DiskType,
+			Model:     v.DiskInventoryInfo.Model,
+			Online:    online,
+			Prefailed: prefailed,
 		}
 
 		ail = append(ail, ai)
