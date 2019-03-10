@@ -154,24 +154,15 @@ func (c *Client) GetDiskInfo() ([]DiskInfo, error) {
 		online := true
 		if v.DiskRaidInfo.DiskAggregateInfo.IsOffline == "true" {
 			online = false
-			if c.Debug {
-				println(v.DiskRaidInfo.DiskAggregateInfo.IsOffline)
-			}
 		}
 		prefailed := false
 		if v.DiskRaidInfo.DiskAggregateInfo.IsPrefailed == "true" {
 			prefailed = true
-			if c.Debug {
-				println(v.DiskRaidInfo.DiskAggregateInfo.IsPrefailed)
-			}
 		}
 
 		spare := false
 		if v.DiskRaidInfo.ContainerType == "spare" {
 			spare = true
-			if c.Debug {
-				println(v.DiskRaidInfo.ContainerType)
-			}
 		}
 
 		ai := DiskInfo{
