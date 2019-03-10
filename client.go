@@ -166,12 +166,21 @@ func (c *Client) GetDiskInfo() ([]DiskInfo, error) {
 			}
 		}
 
+		spare := false
+		if v.DiskRaidInfo.ContainerType == "spare" {
+			spare = true
+			if c.Debug {
+				println(v.DiskRaidInfo.ContainerType)
+			}
+		}
+
 		ai := DiskInfo{
 			Name:      v.DiskName,
 			DiskType:  v.DiskInventoryInfo.DiskType,
 			Model:     v.DiskInventoryInfo.Model,
 			Online:    online,
 			Prefailed: prefailed,
+			Spare:     spare,
 		}
 
 		ail = append(ail, ai)

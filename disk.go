@@ -6,4 +6,5 @@ type DiskInfo struct {
 	Model     string
 	Online    bool
 	Prefailed bool
+	Spare     bool
 }
