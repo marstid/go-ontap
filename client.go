@@ -442,13 +442,16 @@ func (c *Client) GetVolumeInfo(limit int) (volumes []VolumeInfo, err error) {
 	var volList []VolumeInfo
 	for _, v := range result.Results.AttributesList.VolumeAttributes {
 		vol := VolumeInfo{
-			Name:        v.VolumeIDAttributes.Name,
-			Aggr:        v.VolumeIDAttributes.AggrList.AggrName,
-			SizeTotal:   v.VolumeSpaceAttributes.SizeTotal,
-			PercentUsed: v.VolumeSpaceAttributes.PercentageSizeUsed,
-			SizeUsed:    v.VolumeSpaceAttributes.SizeUsed,
-			SizeFree:    v.VolumeSpaceAttributes.SizeAvailable,
-			State:       v.VolumeStateAttributes.State}
+			Name:               v.VolumeIDAttributes.Name,
+			Aggr:               v.VolumeIDAttributes.AggrList.AggrName,
+			SizeTotal:          v.VolumeSpaceAttributes.SizeTotal,
+			PercentUsed:        v.VolumeSpaceAttributes.PercentageSizeUsed,
+			SizeUsed:           v.VolumeSpaceAttributes.SizeUsed,
+			SizeFree:           v.VolumeSpaceAttributes.SizeAvailable,
+			State:              v.VolumeStateAttributes.State,
+			SnapPercentUsed:    v.VolumeSpaceAttributes.PercentageSnapshotReserveUsed,
+			SnapPercentReserve: v.VolumeSpaceAttributes.PercentageSnapshotReserve,
+		}
 		volList = append(volList, vol)
 	}
 
