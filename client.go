@@ -179,11 +179,11 @@ func (c *Client) GetDiskInfo() ([]DiskInfo, error) {
 	return ail, nil
 }
 
-func (c *Client) GetAggrInfo() ([]AggrInfo, error) {
+func (c *Client) GetAggrInfo(limit int) ([]AggrInfo, error) {
 	ixml := &AggrInfoRequest{}
 	ixml.Version = apiVersion
 	ixml.Xmlns = XMLns
-	//ixml.AggrGetIter.MaxRecords = strconv.Itoa(limit)
+	ixml.AggrGetIter.MaxRecords = strconv.Itoa(limit)
 
 	output, err := xml.MarshalIndent(ixml, "", "\t")
 
@@ -399,11 +399,11 @@ func (c *Client) getVolumeToAggrMap() (map[string]string, error) {
 }
 
 // Returns custom struct of Volumes Info
-func (c *Client) GetVolumeInfo() (volumes []VolumeInfo, err error) {
+func (c *Client) GetVolumeInfo(limit int) (volumes []VolumeInfo, err error) {
 	ixml := &VolumeGetIterShort{}
 	ixml.Version = apiVersion
 	ixml.Xmlns = XMLns
-	//ixml.VolumeGetIter.MaxRecords = strconv.Itoa(limit)
+	ixml.VolumeGetIter.MaxRecords = strconv.Itoa(limit)
 
 	output, err := xml.MarshalIndent(ixml, "", "\t")
 	if c.Debug {
