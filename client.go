@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -247,7 +248,7 @@ func (c *Client) GetAggrPerf() ([]PerfCounter, error) {
 
 	var inst []string
 
-	agi, err := c.GetAggrInfo()
+	agi, err := c.GetAggrInfo(100)
 	if err != nil {
 		return nil, err
 	}
@@ -386,7 +387,7 @@ func (c *Client) getPerformanceData(object string, counters []string, instances 
 
 func (c *Client) getVolumeToAggrMap() (map[string]string, error) {
 	m := make(map[string]string)
-	list, err := c.GetVolumeInfo()
+	list, err := c.GetVolumeInfo(1000)
 	if err != nil {
 		return nil, err
 	}
