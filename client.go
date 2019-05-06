@@ -114,6 +114,35 @@ func (c *Client) doRequest(req *http.Request) ([]byte, error) {
 
 }
 
+// Get slice of EnvironmentSensorInfo
+func (c *Client) GetEnvironment() (sensorInfo []EnvironmentSensorsInfo, error error) {
+
+	egs := &EnvRequest{}
+	egs.Version = apiVersion
+	egs.Xmlns = XMLns
+
+	output, err := xml.MarshalIndent(egs, "", "\t")
+	payload := bytes.NewReader(output)
+
+	req, err := http.NewRequest("POST", c.Url, payload)
+	if err != nil {
+		return nil, err
+	}
+
+	response, err := c.doRequest(req)
+	if err != nil {
+		return nil, err
+	}
+
+	var result EnvResults
+	err = xml.Unmarshal(response, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	return result.Results.AttributesList.EnvironmentSensors, nil
+}
+
 func (c *Client) GetDiskInfo() ([]DiskInfo, error) {
 	ixml := &DiskInfoRequest{}
 	ixml.Version = apiVersion
