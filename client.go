@@ -414,7 +414,7 @@ func (c *Client) getPerformanceData(object string, counters []string, instances 
 	return perfC, nil
 }
 
-func (c *Client) getVolumeToAggrMap() (map[string]string, error) {
+func (c *Client) GetVolumeToAggrMap() (map[string]string, error) {
 	m := make(map[string]string)
 	list, err := c.GetVolumeInfo(1000)
 	if err != nil {
