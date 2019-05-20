@@ -313,7 +313,7 @@ func (c *Client) GetVolumePerf() ([]PerfCounter, error) {
 
 	var inst []string
 
-	m, err := c.getVolumeToAggrMap()
+	m, err := c.GetVolumeToAggrMap()
 	if err != nil {
 		return nil, err
 	}
