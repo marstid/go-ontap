@@ -362,6 +362,31 @@ func (c *Client) GetDiskPerf() ([]PerfCounter, error) {
 	return pc, nil
 }
 
+func (c *Client) GetNodePerf() ([]PerfCounter, error) {
+	// Performance counters of interest
+	var counters []string
+	counters = append(counters, "cpu_busy")
+	counters = append(counters, "name")
+
+	var inst []string
+
+	agi, err := c.GetDiskInfo()
+	if err != nil {
+		return nil, err
+	}
+
+	for _, v := range agi {
+		inst = append(inst, v.Name)
+	}
+
+	pc, err := c.getPerformanceData("disk", counters, inst)
+	if err != nil {
+		return nil, err
+	}
+
+	return pc, nil
+}
+
 func (c *Client) getPerformanceData(object string, counters []string, instances []string) ([]PerfCounter, error) {
 	ixml := &PerfRequest{}
 	ixml.Version = apiVersion
@@ -483,7 +508,7 @@ func (c *Client) GetVolumeInfo(limit int) (volumes []VolumeInfo, err error) {
 
 		vol := VolumeInfo{
 			Name:               v.VolumeIDAttributes.Name,
-			Aggr:               v.VolumeIDAttributes.AggrList.AggrName,
+			Aggr:               v.VolumeIDAttributes.ContainingAggregateName,
 			SizeTotal:          v.VolumeSpaceAttributes.SizeTotal,
 			PercentUsed:        v.VolumeSpaceAttributes.PercentageSizeUsed,
 			SizeUsed:           v.VolumeSpaceAttributes.SizeUsed,

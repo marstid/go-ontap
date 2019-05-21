@@ -37,3 +37,14 @@ type ClusterIdentityInfo struct {
 		} `xml:"attributes"`
 	} `xml:"results"`
 }
+
+type ClusterNodeRequest struct {
+	XMLName        xml.Name `xml:"netapp"`
+	Text           string   `xml:",chardata"`
+	Version        string   `xml:"version,attr"`
+	Xmlns          string   `xml:"xmlns,attr"`
+	NmsdkVersion   string   `xml:"nmsdk_version,attr"`
+	NmsdkPlatform  string   `xml:"nmsdk_platform,attr"`
+	NmsdkLanguage  string   `xml:"nmsdk_language,attr"`
+	ClusterNodeGet string   `xml:"cluster-node-get-iter"`
+}

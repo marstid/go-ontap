@@ -102,7 +102,7 @@ type PerfObjectResponse struct {
 	} `xml:"results"`
 }
 
-type ObjectInfo []struct {
+type ObjectInfo struct {
 	Text                         string `xml:",chardata"`
 	Description                  string `xml:"description"`
 	IsDeprecated                 string `xml:"is-deprecated"`

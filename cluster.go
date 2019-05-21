@@ -60,3 +60,46 @@ func (c *Client) GetIdClusterInfo() (clusterId IdentityInfo, error error) {
 	return clusterId, nil
 
 }
+
+func (c *Client) GetClusterNodeInfo() (clusterId IdentityInfo, error error) {
+
+	nr := &ClusterNodeRequest{}
+	nr.Version = apiVersion
+	nr.Xmlns = XMLns
+
+	output, err := xml.MarshalIndent(nr, "", "\t")
+	payload := bytes.NewReader(output)
+
+	if c.Debug {
+		x := xmlfmt.FormatXML(string(output), "\t", "  ")
+		println("Request:")
+		println(x)
+	}
+
+	req, err := http.NewRequest("POST", c.Url, payload)
+	if err != nil {
+		return clusterId, err
+	}
+
+	response, err := c.doRequest(req)
+	if err != nil {
+		return clusterId, err
+	}
+
+	if c.Debug {
+		x := xmlfmt.FormatXML(string(response), "\t", "  ")
+		println("Response:")
+		println(x)
+	}
+
+	var result ClusterIdentityInfo
+	err = xml.Unmarshal(response, &result)
+	if err != nil {
+		return clusterId, err
+	}
+
+	clusterId = result.Results.Attributes.ClusterIdentityInfo
+
+	return clusterId, nil
+
+}
