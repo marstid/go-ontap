@@ -62,7 +62,7 @@ type PerfCounterResponse struct {
 	Text    string   `xml:",chardata"`
 	Results struct {
 		Text     string `xml:",chardata"`
-		Status    string `xml:"status,attr"`
+		Status   string `xml:"status,attr"`
 		Counters struct {
 			Text        string `xml:",chardata"`
 			CounterInfo []struct {
@@ -76,4 +76,37 @@ type PerfCounterResponse struct {
 			} `xml:"counter-info"`
 		} `xml:"counters"`
 	} `xml:"results"`
+}
+
+type PerfObjectRequest struct {
+	XMLName       xml.Name `xml:"netapp"`
+	Text          string   `xml:",chardata"`
+	Version       string   `xml:"version,attr"`
+	Xmlns         string   `xml:"xmlns,attr"`
+	NmsdkVersion  string   `xml:"nmsdk_version,attr"`
+	NmsdkPlatform string   `xml:"nmsdk_platform,attr"`
+	NmsdkLanguage string   `xml:"nmsdk_language,attr"`
+	PerfObject    string   `xml:"perf-object-list-info"`
+}
+
+type PerfObjectResponse struct {
+	XMLName xml.Name `xml:"netapp"`
+	Text    string   `xml:",chardata"`
+	Results struct {
+		Text    string `xml:",chardata"`
+		Status  string `xml:"status,attr"`
+		Objects struct {
+			Text           string       `xml:",chardata"`
+			ObjectInfoList []ObjectInfo `xml:"object-info"`
+		} `xml:"objects"`
+	} `xml:"results"`
+}
+
+type ObjectInfo []struct {
+	Text                         string `xml:",chardata"`
+	Description                  string `xml:"description"`
+	IsDeprecated                 string `xml:"is-deprecated"`
+	Name                         string `xml:"name"`
+	PrivilegeLevel               string `xml:"privilege-level"`
+	GetInstancesPreferredCounter string `xml:"get-instances-preferred-counter"`
 }
