@@ -469,7 +469,18 @@ func (c *Client) GetVolumeInfo(limit int) (volumes []VolumeInfo, err error) {
 
 	// Convert to custom struct
 	var volList []VolumeInfo
+
+	//  Exclude internal volumes
+	r1, _ := regexp.Compile("^vol0")
+	r2, _ := regexp.Compile("_root$")
+
 	for _, v := range result.Results.AttributesList.VolumeAttributes {
+
+		// Skip internal volumes
+		if r1.MatchString(v.VolumeIDAttributes.Name) || r2.MatchString(v.VolumeIDAttributes.Name) {
+			continue
+		}
+
 		vol := VolumeInfo{
 			Name:               v.VolumeIDAttributes.Name,
 			Aggr:               v.VolumeIDAttributes.AggrList.AggrName,
