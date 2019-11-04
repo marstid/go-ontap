@@ -49,7 +49,7 @@ type FCPAdapterRequest struct {
 	FCConfigListInfo string   `xml:"fcp-adapter-get-iter"`
 }
 
-type FcpConfigAdapterInfo []struct {
+type FcpConfigAdapterInfo struct {
 	Text                   string `xml:",chardata"`
 	Adapter                string `xml:"adapter"`
 	ConnectionEstablished  string `xml:"connection-established"`
