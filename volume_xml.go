@@ -224,12 +224,12 @@ type VolumeGetIterShort struct {
 		Text              string `xml:",chardata"`
 		MaxRecords        string `xml:"max-records"`
 		DesiredAttributes struct {
-			VolumeAttributes      struct{
+			VolumeAttributes struct {
 				Text                  string `xml:",chardata"`
 				VolumeIDAttributes    string `xml:"volume-id-attributes"`
 				VolumeSpaceAttributes string `xml:"volume-space-attributes"`
 				VolumeStateAttributes string `xml:"volume-state-attributes"`
-			}  `xml:"volume-attributes,omitempty"`
+			} `xml:"volume-attributes,omitempty"`
 		} `xml:"desired-attributes"`
 	} `xml:"volume-get-iter"`
 }
@@ -243,7 +243,7 @@ type VolumeGetIterFull struct {
 		Text              string `xml:",chardata"`
 		MaxRecords        string `xml:"max-records"`
 		DesiredAttributes struct {
-			Text                  string `xml:",chardata"`
+			Text string `xml:",chardata"`
 		} `xml:"desired-attributes"`
 	} `xml:"volume-get-iter"`
 }

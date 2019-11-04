@@ -72,8 +72,8 @@ func (c *Client) GetSystemNodeInfo() (nodeDetails []NodeDetailsInfo, err error) 
 func (c *Client) GetSystemPerf() ([]PerfCounter, error) {
 	// Performance counters of interest
 	var counters []string
-	counters = append(counters, "total_processor_busy")
-	counters = append(counters, "total_processor_busy_time")
+	//counters = append(counters, "total_processor_busy")
+	//counters = append(counters, "total_processor_busy_time")
 	counters = append(counters, "cpu_busy")
 	counters = append(counters, "cpu_elapsed_time")
 

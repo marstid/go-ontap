@@ -3,14 +3,13 @@ package ontap
 import "encoding/xml"
 
 type AggrInfoRequest struct {
-	XMLName       xml.Name `xml:"netapp"`
-	Version       string   `xml:"version,attr"`
-	Xmlns         string   `xml:"xmlns,attr"`
-	AggrGetIter   struct {
+	XMLName     xml.Name `xml:"netapp"`
+	Version     string   `xml:"version,attr"`
+	Xmlns       string   `xml:"xmlns,attr"`
+	AggrGetIter struct {
 		MaxRecords string `xml:"max-records"`
 	} `xml:"aggr-get-iter"`
 }
-
 
 type AggrInfoResponse struct {
 	XMLName xml.Name `xml:"netapp"`
