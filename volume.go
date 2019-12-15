@@ -11,15 +11,21 @@ import (
 )
 
 type VolumeInfo struct {
-	Name               string
-	Aggr               string
-	SizeTotal          string
-	PercentUsed        string
-	SizeUsed           string
-	SizeFree           string
-	State              string
-	SnapPercentUsed    string
-	SnapPercentReserve string
+	Name                              string
+	Aggr                              string
+	SizeTotal                         string
+	PercentUsed                       string
+	SizeUsed                          string
+	SizeFree                          string
+	State                             string
+	SnapPercentUsed                   string
+	SnapPercentReserve                string
+	CompressionSpaceSaved             string
+	CompressionPercentageSpaceSaved   string
+	DeduplicationSpaceSaved           string
+	DeduplicationPercentageSpaceSaved string
+	TotalSpaceSaved                   string
+	TotalPercentageSpaceSaved         string
 }
 
 type Volume struct {

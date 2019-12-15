@@ -8,4 +8,10 @@ type AggrInfo struct {
 	SizeUsedPercent string
 	State           string
 	Cluster         string
+	// Data Compaction
+	DataCompactionSpaceSaved        string
+	DataCompactionSpaceSavedPercent string
+	// Sis
+	SisSpaceSaved        string
+	SisSpaceSavedPercent string
 }

@@ -248,14 +248,17 @@ func (c *Client) GetAggrInfo(limit int) ([]AggrInfo, error) {
 
 	for _, v := range result.Results.AttributesList.AggrAttributes {
 		ai := AggrInfo{
-			Name:            v.AggregateName,
-			SizeTotal:       v.AggrSpaceAttributes.SizeTotal,
-			SizeUsed:        v.AggrSpaceAttributes.SizeUsed,
-			SizeAvailable:   v.AggrSpaceAttributes.SizeAvailable,
-			SizeUsedPercent: v.AggrSpaceAttributes.PercentUsedCapacity,
-			Cluster:         v.AggrOwnershipAttributes.Cluster,
+			Name:                            v.AggregateName,
+			SizeTotal:                       v.AggrSpaceAttributes.SizeTotal,
+			SizeUsed:                        v.AggrSpaceAttributes.SizeUsed,
+			SizeAvailable:                   v.AggrSpaceAttributes.SizeAvailable,
+			SizeUsedPercent:                 v.AggrSpaceAttributes.PercentUsedCapacity,
+			Cluster:                         v.AggrOwnershipAttributes.Cluster,
+			DataCompactionSpaceSaved:        v.AggrSpaceAttributes.DataCompactionSpaceSaved,
+			DataCompactionSpaceSavedPercent: v.AggrSpaceAttributes.DataCompactionSpaceSavedPercent,
+			SisSpaceSaved:                   v.AggrSpaceAttributes.SisSpaceSaved,
+			SisSpaceSavedPercent:            v.AggrSpaceAttributes.SisSpaceSavedPercent,
 		}
-
 		ail = append(ail, ai)
 	}
 
@@ -265,15 +268,14 @@ func (c *Client) GetAggrInfo(limit int) ([]AggrInfo, error) {
 func (c *Client) GetAggrPerf() ([]PerfCounter, error) {
 	// Performance counters of interest
 	var counters []string
-	counters = append(counters, "user_reads")
-	counters = append(counters, "read_data")
-	counters = append(counters, "user_read_latency")
+	counters = append(counters, "user_reads")        // Number of user reads per second to the aggregate. per_sec
+	counters = append(counters, "read_data")         // Amount of data read per second from the aggregate. b_per_sec
+	counters = append(counters, "user_read_latency") // Average latency per block in microseconds for user read operations. microsec
 	counters = append(counters, "user_writes")
 	counters = append(counters, "user_write_latency")
 	counters = append(counters, "write_data")
 	counters = append(counters, "latency")
-	counters = append(counters, "aggr_throughput")
-	counters = append(counters, "latency")
+	counters = append(counters, "aggr_throughput") // Total amount of CP read data, user read data, and user write data per second. b_per_sec
 
 	var inst []string
 
@@ -507,15 +509,21 @@ func (c *Client) GetVolumeInfo(limit int) (volumes []VolumeInfo, err error) {
 		}
 
 		vol := VolumeInfo{
-			Name:               v.VolumeIDAttributes.Name,
-			Aggr:               v.VolumeIDAttributes.ContainingAggregateName,
-			SizeTotal:          v.VolumeSpaceAttributes.SizeTotal,
-			PercentUsed:        v.VolumeSpaceAttributes.PercentageSizeUsed,
-			SizeUsed:           v.VolumeSpaceAttributes.SizeUsed,
-			SizeFree:           v.VolumeSpaceAttributes.SizeAvailable,
-			State:              v.VolumeStateAttributes.State,
-			SnapPercentUsed:    v.VolumeSpaceAttributes.PercentageSnapshotReserveUsed,
-			SnapPercentReserve: v.VolumeSpaceAttributes.PercentageSnapshotReserve,
+			Name:                              v.VolumeIDAttributes.Name,
+			Aggr:                              v.VolumeIDAttributes.ContainingAggregateName,
+			SizeTotal:                         v.VolumeSpaceAttributes.SizeTotal,
+			PercentUsed:                       v.VolumeSpaceAttributes.PercentageSizeUsed,
+			SizeUsed:                          v.VolumeSpaceAttributes.SizeUsed,
+			SizeFree:                          v.VolumeSpaceAttributes.SizeAvailable,
+			State:                             v.VolumeStateAttributes.State,
+			SnapPercentUsed:                   v.VolumeSpaceAttributes.PercentageSnapshotReserveUsed,
+			SnapPercentReserve:                v.VolumeSpaceAttributes.PercentageSnapshotReserve,
+			CompressionPercentageSpaceSaved:   v.VolumeSisAttributes.PercentageCompressionSpaceSaved,
+			CompressionSpaceSaved:             v.VolumeSisAttributes.CompressionSpaceSaved,
+			DeduplicationPercentageSpaceSaved: v.VolumeSisAttributes.PercentageDeduplicationSpaceSaved,
+			DeduplicationSpaceSaved:           v.VolumeSisAttributes.DeduplicationSpaceSaved,
+			TotalPercentageSpaceSaved:         v.VolumeSisAttributes.PercentageTotalSpaceSaved,
+			TotalSpaceSaved:                   v.VolumeSisAttributes.TotalSpaceSaved,
 		}
 		volList = append(volList, vol)
 	}
