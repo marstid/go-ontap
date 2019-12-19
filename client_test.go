@@ -3,6 +3,7 @@ package ontap
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"testing"
 )
 
@@ -34,6 +35,7 @@ func TestClient(t *testing.T) {
 	}
 }
 
+/*
 func TestFC(t *testing.T) {
 	client := NewClient(url, user, pw, true)
 	client.Debug = true
@@ -43,18 +45,94 @@ func TestFC(t *testing.T) {
 		t.Error(err)
 	}
 
-	if data == nil{
+	if data == nil {
 		t.Error(err)
 	}
-
 
 	data2, err := client.GetFCPAdapter()
 	if err != nil {
 		t.Error(err)
 	}
 
-	if data2 == nil{
+	if data2 == nil {
 		t.Error(err)
 	}
 
+	fmt.Println(data2[0].StatusAdmin)
+
+}
+*/
+/*
+func TestPFD(t *testing.T){
+	client := NewClient(url, user, pw, true)
+
+	pf, err := client.GetPerfObject()
+	if err != nil {
+		t.Error(err)
+	}
+	for _, value := range pf {
+		if strings.Contains(value.Name, "aggr"){
+			fmt.Printf("%s\n%s\n\n",value.Name, value.Description)
+		}
+
+	}
+
+}
+*/
+/*
+func TestPFD(t *testing.T) {
+	client := NewClient(url, user, pw, true)
+
+	pf, err := client.GetPerfCounters("aggregate")
+	if err != nil {
+		t.Error(err)
+	}
+	for _, value := range pf {
+
+		fmt.Printf("%s\n%s\n%s\n\n", value.Name, value.Desc, value.Unit)
+
+	}
+
+}
+*/
+func TestVolInf(t *testing.T) {
+	client := NewClient(url, user, pw, true)
+	client.Debug = false
+	vl, err := client.GetVolumeInfo(4)
+	if err != nil {
+		t.Error(err)
+	}
+
+	for _, value := range vl {
+
+		fmt.Printf("Name: %s\n", value.Name)
+		fmt.Printf("Aggregate: %s\n", value.Aggr)
+		fmt.Printf("Dedup: %s\n", value.DeduplicationPercentageSpaceSaved)
+		fmt.Printf("Comp: %s\n", value.CompressionPercentageSpaceSaved)
+		fmt.Printf("P space saved: %s\n", value.TotalPercentageSpaceSaved)
+		i, _ := strconv.Atoi(value.TotalSpaceSaved)
+		fmt.Printf("Space saved: %d GB\n", i/1024/1024/1024)
+		fmt.Println()
+	}
+}
+
+func TestAggrInf(t *testing.T) {
+	client := NewClient(url, user, pw, true)
+	client.Debug = false
+	vl, err := client.GetAggrInfo(4)
+	if err != nil {
+		t.Error(err)
+	}
+
+	for _, value := range vl {
+
+		fmt.Printf("Name: %s\n", value.Name)
+		fmt.Printf("P space saved: %s\n", value.SisSpaceSavedPercent)
+		i, _ := strconv.Atoi(value.SisSpaceSaved)
+		fmt.Printf("Space saved: %d GB\n", i/1024/1024/1024)
+		fmt.Printf("CP space saved: %s\n", value.DataCompactionSpaceSavedPercent)
+		j, _ := strconv.Atoi(value.DataCompactionSpaceSaved)
+		fmt.Printf("Compacting Space saved: %d GB\n", j/1024/1024/1024)
+		fmt.Println()
+	}
 }
