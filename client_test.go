@@ -35,6 +35,21 @@ func TestClient(t *testing.T) {
 	}
 }
 
+func TestLun(t *testing.T) {
+	client := NewClient(url, user, pw, true)
+	client.Debug = false
+
+	_, err := client.GetLunInfo(10)
+	if err != nil {
+		t.Error(err)
+	}
+	/*
+		for _, re := range res {
+			fmt.Printf("Name: %s, Space: %t\n", re.Volume, re.IsSpaceAllocEnabled)
+		}
+	*/
+}
+
 /*
 func TestFC(t *testing.T) {
 	client := NewClient(url, user, pw, true)
@@ -62,6 +77,7 @@ func TestFC(t *testing.T) {
 
 }
 */
+
 /*
 func TestPFD(t *testing.T){
 	client := NewClient(url, user, pw, true)
@@ -79,6 +95,7 @@ func TestPFD(t *testing.T){
 
 }
 */
+
 /*
 func TestPFD(t *testing.T) {
 	client := NewClient(url, user, pw, true)
@@ -95,6 +112,7 @@ func TestPFD(t *testing.T) {
 
 }
 */
+
 func TestVolInf(t *testing.T) {
 	client := NewClient(url, user, pw, true)
 	client.Debug = false
