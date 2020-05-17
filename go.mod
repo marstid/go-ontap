@@ -1,4 +1,4 @@
-module github.com/martid/go-ontap
+module github.com/marstid/go-ontap
 
 go 1.14
 
