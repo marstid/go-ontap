@@ -232,12 +232,12 @@ func (c *Client) GetVolumeInfo(limit int) (volumes []VolumeInfo, err error) {
 		// Calculate Inode allocation
 		InodeTotal, err := strconv.ParseInt(v.VolumeInodeAttributes.FilesTotal, 10, 64)
 		if err != nil {
-			InodeTotal = 0
+			InodeTotal = 1
 		}
 
 		InodeUsed, err := strconv.ParseInt(v.VolumeInodeAttributes.FilesUsed, 10, 64)
 		if err != nil {
-			InodeTotal = 0
+			InodeTotal = 1
 		}
 
 		InodePercent := float64((InodeUsed / InodeTotal) * 100)
