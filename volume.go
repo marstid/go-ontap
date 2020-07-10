@@ -29,6 +29,7 @@ type VolumeInfo struct {
 	TotalPercentageSpaceSaved         string
 	InodeTotal                        string
 	InodeUsed                         string
+	InodePercent                      string
 }
 
 type Volume struct {
@@ -228,6 +229,19 @@ func (c *Client) GetVolumeInfo(limit int) (volumes []VolumeInfo, err error) {
 			continue
 		}
 
+		// Calculate Inode allocation
+		InodeTotal, err := strconv.ParseInt(v.VolumeInodeAttributes.FilesTotal, 10, 64)
+		if err != nil {
+			InodeTotal = 0
+		}
+
+		InodeUsed, err := strconv.ParseInt(v.VolumeInodeAttributes.FilesUsed, 10, 64)
+		if err != nil {
+			InodeTotal = 0
+		}
+
+		InodePercent := float64((InodeUsed / InodeTotal) * 100)
+
 		vol := VolumeInfo{
 			Name:                              v.VolumeIDAttributes.Name,
 			Aggr:                              v.VolumeIDAttributes.ContainingAggregateName,
@@ -246,6 +260,7 @@ func (c *Client) GetVolumeInfo(limit int) (volumes []VolumeInfo, err error) {
 			TotalSpaceSaved:                   v.VolumeSisAttributes.TotalSpaceSaved,
 			InodeTotal:                        v.VolumeInodeAttributes.FilesTotal,
 			InodeUsed:                         v.VolumeInodeAttributes.FilesUsed,
+			InodePercent:                      fmt.Sprintf("%f2", InodePercent),
 		}
 		volList = append(volList, vol)
 	}
