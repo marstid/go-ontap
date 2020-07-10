@@ -27,6 +27,8 @@ type VolumeInfo struct {
 	DeduplicationPercentageSpaceSaved string
 	TotalSpaceSaved                   string
 	TotalPercentageSpaceSaved         string
+	InodeTotal                        string
+	InodeUsed                         string
 }
 
 type Volume struct {
@@ -242,6 +244,8 @@ func (c *Client) GetVolumeInfo(limit int) (volumes []VolumeInfo, err error) {
 			DeduplicationSpaceSaved:           v.VolumeSisAttributes.DeduplicationSpaceSaved,
 			TotalPercentageSpaceSaved:         v.VolumeSisAttributes.PercentageTotalSpaceSaved,
 			TotalSpaceSaved:                   v.VolumeSisAttributes.TotalSpaceSaved,
+			InodeTotal:                        v.VolumeInodeAttributes.FilesTotal,
+			InodeUsed:                         v.VolumeInodeAttributes.FilesUsed,
 		}
 		volList = append(volList, vol)
 	}
