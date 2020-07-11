@@ -86,82 +86,6 @@ type VolumeGetIterResult struct {
 	} `xml:"results"`
 }
 
-/*
-
-func (v *Volume) List(limit int) (vList []string, err error) {
-
-	vgi := NewVolumeGetIter(limit)
-
-	output, err := xml.MarshalIndent(vgi, "", "\t")
-	payload := bytes.NewReader(output)
-
-	req, err := http.NewRequest("POST", v.Client.Url, payload)
-	if err != nil {
-		return nil, err
-	}
-
-	response, err := v.Client.doRequest(req)
-	if err != nil {
-		return nil, err
-	}
-
-	x := xmlfmt.FormatXML(string(response), "\t", "  ")
-	println(x)
-
-	var result NetappVolume
-	err = xml.Unmarshal(response, &result)
-	if err != nil {
-		return nil, err
-	}
-
-	for k, v := range result.Results.AttributesList.VolumeAttributes {
-		fmt.Println(k, v.VolumeIDAttributes.Name, v.VolumeSpaceAttributes.Size)
-	}
-
-	fmt.Println()
-
-	return nil, err
-}
-
-func (v *Volume) GetVolumeAttributes(limit int) (volumes []VolumeAttributes, err error) {
-	ixml := &VolumeGetIterShort{}
-	ixml.Version = apiVersion
-	ixml.Xmlns = XMLns
-	ixml.VolumeGetIter.MaxRecords = strconv.Itoa(limit)
-
-	output, err := xml.MarshalIndent(ixml, "", "\t")
-	print(xmlfmt.FormatXML(string(output), "\t", "  "))
-
-	payload := bytes.NewReader(output)
-
-	req, err := http.NewRequest("POST", v.Client.Url, payload)
-	if err != nil {
-		return nil, err
-	}
-
-	response, err := v.Client.doRequest(req)
-	if err != nil {
-		return nil, err
-	}
-
-	x := xmlfmt.FormatXML(string(response), "\t", "  ")
-	println(x)
-
-	var result NetappVolume
-	err = xml.Unmarshal(response, &result)
-	if err != nil {
-		return nil, err
-	}
-
-	if strings.Compare(result.Results.Status, "passed") != 1 {
-		return nil, fmt.Errorf("%s", "foobar")
-	}
-
-	return nil, nil
-}
-
-*/
-
 func (c *Client) GetVolumeToAggrMap() (map[string]string, error) {
 	m := make(map[string]string)
 	list, err := c.GetVolumeInfo(1000)
@@ -260,7 +184,7 @@ func (c *Client) GetVolumeInfo(limit int) (volumes []VolumeInfo, err error) {
 			TotalSpaceSaved:                   v.VolumeSisAttributes.TotalSpaceSaved,
 			InodeTotal:                        v.VolumeInodeAttributes.FilesTotal,
 			InodeUsed:                         v.VolumeInodeAttributes.FilesUsed,
-			InodePercent:                      fmt.Sprintf("%f2", InodePercent),
+			InodePercent:                      fmt.Sprintf("%.0f", InodePercent),
 		}
 		volList = append(volList, vol)
 	}

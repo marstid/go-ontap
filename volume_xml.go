@@ -230,6 +230,7 @@ type VolumeGetIterShort struct {
 				VolumeSpaceAttributes string `xml:"volume-space-attributes"`
 				VolumeStateAttributes string `xml:"volume-state-attributes"`
 				VolumeSisAttributes   string `xml:"volume-sis-attributes"`
+				VolumeInodeAttributes string `xml:"volume-inode-attributes"`
 			} `xml:"volume-attributes,omitempty"`
 		} `xml:"desired-attributes"`
 	} `xml:"volume-get-iter"`
