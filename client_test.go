@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 	"testing"
+	"time"
 )
 
 var url string
@@ -23,7 +24,7 @@ func init() {
 }
 
 func TestClient(t *testing.T) {
-	client := NewClient(url, user, pw, true)
+	client := NewClient(url, user, pw, true, 10*time.Second)
 	client.Debug = false
 
 	ver, err := client.GetSystemVersion()
@@ -36,7 +37,7 @@ func TestClient(t *testing.T) {
 }
 
 func TestLun(t *testing.T) {
-	client := NewClient(url, user, pw, true)
+	client := NewClient(url, user, pw, true, 10*time.Second)
 	client.Debug = false
 
 	_, err := client.GetLunInfo(10)
@@ -48,6 +49,21 @@ func TestLun(t *testing.T) {
 			fmt.Printf("Name: %s, Space: %t\n", re.Volume, re.IsSpaceAllocEnabled)
 		}
 	*/
+}
+
+func TestVolume(t *testing.T) {
+	client := NewClient(url, user, pw, true, 10*time.Second)
+	client.Debug = true
+
+	res, err := client.GetVolumeInfo(25)
+	if err != nil {
+		t.Error(err)
+	}
+
+	for _, re := range res {
+		fmt.Printf("Name: %s, Space: %s %s %s\n", re.Name, re.InodeTotal, re.InodeUsed, re.InodePercent)
+	}
+
 }
 
 /*
@@ -114,7 +130,7 @@ func TestPFD(t *testing.T) {
 */
 
 func TestVolInf(t *testing.T) {
-	client := NewClient(url, user, pw, true)
+	client := NewClient(url, user, pw, true, 10*time.Second)
 	client.Debug = false
 	vl, err := client.GetVolumeInfo(4)
 	if err != nil {
@@ -135,7 +151,7 @@ func TestVolInf(t *testing.T) {
 }
 
 func TestAggrInf(t *testing.T) {
-	client := NewClient(url, user, pw, true)
+	client := NewClient(url, user, pw, true, 10*time.Second)
 	client.Debug = false
 	vl, err := client.GetAggrInfo(4)
 	if err != nil {

@@ -29,7 +29,7 @@ type Client struct {
 }
 
 // Instantiate new client
-func NewClient(host, username, password string, ssl bool) *Client {
+func NewClient(host, username, password string, ssl bool, timeout time.Duration) *Client {
 
 	url := "https://" + host + basePath
 	if !ssl {
@@ -42,7 +42,7 @@ func NewClient(host, username, password string, ssl bool) *Client {
 		Host:      host,
 		VerifySSL: ssl,
 		SSL:       true,
-		TimeOut:   10,
+		TimeOut:   timeout,
 		Url:       url,
 		Debug:     false,
 	}
